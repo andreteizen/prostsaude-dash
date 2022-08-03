@@ -3,9 +3,10 @@ import 'devextreme/dist/css/dx.common.css';
 import 'devextreme/dist/css/dx.light.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Head from 'next/head'
+import Script from 'next/script';
 import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
 import { SessionProvider } from "next-auth/react";
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider } from '@chakra-ui/react';
 
 function MyApp({ 
   Component, 
@@ -14,19 +15,19 @@ function MyApp({
   return (
       <div className="Main">
         <Head>
-          <script src="https://unpkg.com/react/umd/react.production.min.js" crossorigin></script>
+          <Script src="https://unpkg.com/react/umd/react.production.min.js" crossorigin></Script>
 
           <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
 
-          <script
+          <Script
             src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"
-            crossorigin></script>
+            crossorigin></Script>
 
-          <script
+          <Script
             src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"
-            crossorigin></script>
+            crossorigin></Script>
 
-          <script>var Alert = ReactBootstrap.Alert;</script>
+          <Script>var Alert = ReactBootstrap.Alert;</Script>
             <title>Startup médica</title>
         </Head>
         <ChakraProvider>

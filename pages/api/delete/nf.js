@@ -1,3 +1,4 @@
+import { unstable_getServerSession } from "next-auth/next"
 import connect from "../../utils/database"
 
 
@@ -9,7 +10,7 @@ if (req.method == 'POST'){
         name: 'teste',
         age: 25,
     })
-    res.status(200).json({message: "Ta funfando"})
+    res.status(200).json({message: "Ok - Delete"})
 } else {
     res.status(400).json({message: "GeT"})
 }

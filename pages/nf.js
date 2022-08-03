@@ -9,6 +9,7 @@ import DataGrid, {
   SearchPanel,
   MasterDetail,
   Button,
+  FilterRow,
   Editing
 } from 'devextreme-react/data-grid';
 import Login from '../components/login.js'
@@ -20,10 +21,12 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import Link from 'next/link'
+import Link from 'next/link';
+import CustomStore from 'devextreme/data/custom_store';
+import connect from '../utils/database.js';
 
 
-export default function Notafiscal() {
+export default function Notafiscal({ data }) {
   const { data: session } = useSession();
 
   if(session){
@@ -52,20 +55,25 @@ export default function Notafiscal() {
                 <div className="p-4 h-100">
                   <p className="h3">Notas fiscais</p>
                     <DataGrid
-                          height='75vh'
-                    keyExpr="documento"
-                    rowAlternationEnabled={true}
-                    allowColumnReordering={true}
-                    allowColumnResizing={true}
-                    showBorders={true}
-                  >
-                        <GroupPanel visible={true} />
-                        <SearchPanel visible={true} highlightCaseSensitive={true} />
-                        <Scrolling mode="infinite" />
-                        <Column dataField="Tipo de documento" dataType="string"/>
-                        <Column dataField="dat_insercao" caption="Data de Inserção" dataType="date" displayFormat="shortdate"/>
-                        <Column dataField="dat_documento" caption="Data do Documento" dataType="date" displayFormat="shortdate"/>
-                        <Column dataField="Download" dataType="string" />
+                      height='75vh'
+                      keyExpr="_id"
+                      rowAlternationEnabled={true}
+                      allowColumnReordering={true}
+                      allowColumnResizing={true}
+                      showBorders={true}
+                      dataSource={data}
+                    >
+                      <FilterRow visible={true} />
+                      <Editing 
+                        allowAdding={true}
+                      />
+                      <GroupPanel visible={true} />
+                      <SearchPanel visible={true} highlightCaseSensitive={true} />
+                      <Scrolling mode="infinite" />
+                      <Column dataField="tipo_documento" caption="Tipo documento" dataType="string"/>
+                      <Column dataField="dat_insercao" caption="Data de Inserção" dataType="date" displayFormat="shortdate"/>
+                      <Column dataField="dat_documento" caption="Data do Documento" dataType="date" displayFormat="shortdate"/>
+                      <Column dataField="arquivo_pdf" caption="Arquivo" dataType="string" />
                     </DataGrid>
                 </div>
                 </Row>
@@ -79,4 +87,22 @@ export default function Notafiscal() {
     <Login/>
   );
   }
+}
+
+export async function getServerSideProps({ req, res }) {
+  const { db } = await connect();
+
+  if (req.method == 'GET'){
+      var data = await db
+        .collection('documentos')
+        .find({})
+        .toArray();
+
+      data = JSON.stringify(data);
+      data = JSON.parse(data);
+      return {props: { data }}
+    }
+
+   // will be passed to the page component as props
+  
 }
