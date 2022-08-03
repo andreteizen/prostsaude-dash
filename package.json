@@ -1,21 +1,35 @@
 {
-  "name": "startup-medical-project",
+  "name": "exploit-front",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
-    "next": "12.2.3",
+    "@chakra-ui/react": "^2.2.4",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@material-ui/core": "^4.11.2",
+    "@material-ui/icons": "^4.11.2",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.9.2",
+    "bootstrap": "^4.5.3",
+    "devextreme": "20.2.4",
+    "devextreme-react": "20.2.4",
+    "framer-motion": "^6.5.1",
+    "google-map-react": "^2.1.9",
+    "google-maps-react": "^2.0.6",
+    "isomorphic-unfetch": "^3.1.0",
+    "mongodb": "^4.8.1",
+    "next": "^12.2.3",
     "next-auth": "^4.10.2",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
-  },
-  "devDependencies": {
-    "eslint": "8.20.0",
-    "eslint-config-next": "12.2.3"
+    "react": "^18.2.0",
+    "react-bootstrap": "^1.4.0",
+    "react-dom": "^18.2.0",
+    "react-geocode": "^0.2.2",
+    "react-google-maps": "^9.4.5",
+    "react-minimal-side-navigation": "^1.5.1"
   }
 }

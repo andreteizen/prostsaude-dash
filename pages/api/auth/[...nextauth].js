@@ -8,5 +8,6 @@ export default NextAuth({
       clientSecret: process.env.AUTH0_CLIENT_SECRET,
       issuer: process.env.AUTH0_ISSUER
     })
-  ]
+  ],
+  session: { jwt: true }
 })

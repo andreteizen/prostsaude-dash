@@ -1,10 +1,14 @@
 .container {
-  padding: 0 2rem;
+  min-height: 90vh;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .main {
-  min-height: 100vh;
-  padding: 4rem 0;
+  padding: 0;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -13,23 +17,26 @@
 }
 
 .footer {
+  width: 100%;
+  height: 60px;
+  border-top: 1px solid #fff;
   display: flex;
-  flex: 1;
-  padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
   justify-content: center;
   align-items: center;
+}
+
+.footer img {
+  margin-left: 0.5rem;
 }
 
 .footer a {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-grow: 1;
 }
 
 .title a {
-  color: #0070f3;
+  color: #6979f8;
   text-decoration: none;
 }
 
@@ -42,7 +49,7 @@
 .title {
   margin: 0;
   line-height: 1.15;
-  font-size: 4rem;
+  font-size: 2rem;
 }
 
 .title,
@@ -51,13 +58,12 @@
 }
 
 .description {
-  margin: 4rem 0;
   line-height: 1.5;
   font-size: 1.5rem;
 }
 
 .code {
-  background: #fafafa;
+  background: #fff;
   border-radius: 5px;
   padding: 0.75rem;
   font-size: 1.1rem;
@@ -70,19 +76,24 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  max-width: 800px;
+  width: 100%;
+  height: 100%;
+  margin: 5% 10%;
+  margin-bottom: 0;
 }
 
 .card {
   margin: 1rem;
+  flex-basis: 45%;
   padding: 1.5rem;
+  height: 10rem;
+  width: 20rem;
   text-align: left;
   color: inherit;
   text-decoration: none;
   border: 1px solid #eaeaea;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
-  max-width: 300px;
 }
 
 .card:hover,
@@ -92,7 +103,7 @@
   border-color: #0070f3;
 }
 
-.card h2 {
+.card h3 {
   margin: 0 0 1rem 0;
   font-size: 1.5rem;
 }
@@ -104,26 +115,12 @@
 }
 
 .logo {
-  height: 1em;
-  margin-left: 0.5rem;
+  height: 5em;
 }
 
 @media (max-width: 600px) {
   .grid {
     width: 100%;
     flex-direction: column;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .card,
-  .footer {
-    border-color: #222;
-  }
-  .code {
-    background: #111;
-  }
-  .logo img {
-    filter: invert(1);
   }
 }
