@@ -25,18 +25,15 @@ import insertData from '../utils/insertData.js';
 import downloadData from '../utils/downloadData.js';
 import axios from "axios";
 import { useRouter } from 'next/router';
+import { getSession } from 'next-auth/react';
 
 
 export default function Notafiscal({ data }) {
-
   const { data: session } = useSession();
-
   const [pdfUploaded, setPdfUploaded] = useState(null);
-
   const router = useRouter();
-
-
   const onDownloadButtonClick = downloadData;
+  const orderDateFormat = "dd/MM/yyyy";
 
   // Função para deletar
   const onDeleteButtonClick = async function deleteData(data) {
@@ -116,8 +113,8 @@ export default function Notafiscal({ data }) {
                       <Column dataField="tipo_documento" caption="Tipo documento">
                         <Lookup dataSource={tiposDocumento} valueExpr="tipo" displayExpr="tipo" />
                       </Column>
-                      <Column dataField="dat_insercao" caption="Data de Inserção" dataType="date" displayFormat="shortdate"/>
-                      <Column dataField="dat_documento" caption="Data do Documento" dataType="date" displayFormat="shortdate"/>
+                      <Column dataField="dat_insercao" caption="Data de Inserção" dataType="date" format={orderDateFormat}/>
+                      <Column dataField="dat_documento" caption="Data do Documento" dataType="date" defaultSortOrder="desc" format={orderDateFormat}/>
                       <Column type='buttons'>
                         <Button icon='download'
                           onClick={onDownloadButtonClick}
@@ -142,19 +139,20 @@ export default function Notafiscal({ data }) {
 }
 
 export async function getServerSideProps({ req, res }) {
-  const { db } = await connect();
+  const session = await getSession({ req });
 
-  if (req.method == 'GET'){
-      var data = await db
-        .collection('documentos')
-        .find({})
-        .toArray();
+  if(session) {
+    const { db } = await connect();
 
-      data = JSON.stringify(data);
-      data = JSON.parse(data);
-      return {props: { data }}
-    }
-
-   // will be passed to the page component as props
+    if (req.method == 'GET'){
+        var data = await db
+          .collection('documentos')
+          .find({ email: session?.user?.email })
+          .toArray();
   
+        data = JSON.stringify(data);
+        data = JSON.parse(data);
+        return {props: { data }}
+      }
+  }
 }
