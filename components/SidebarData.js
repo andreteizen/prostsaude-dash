@@ -12,8 +12,8 @@ export const SidebarData = [
         link: "/nf"
     },
     {
-        title: "DARF",
+        title: "Outros documentos",
         icon: <BusinessIcon />,
-        link: "/darf"
+        link: "/outros_documentos"
     }
 ]

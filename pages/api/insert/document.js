@@ -11,16 +11,17 @@ export default async function handler (req,res){
         if(!session) {
             res.status(400).json({ error: 'ERROR 0000: Usuário não logado'})
         }
-        const {tipo_documento, dat_documento, pdfFile} = req.body;
+        
+        const {tipo_documento, dat_documento, pdfFile, email} = req.body;
 
-        if (!tipo_documento || !dat_documento || !pdfFile) {
+        if (!tipo_documento || !dat_documento || !pdfFile || !email ) {
             res.status(400).json({ error: 'ERROR 0001: Está faltando parâmetros no corpo da requisição'})
         }
 
         const { db } = await connect();
 
         await db.collection('documentos').insertOne({
-            email: session?.user?.email,
+            email,
             tipo_documento,
             dat_insercao: new Date(),
             dat_documento,
