@@ -125,7 +125,6 @@ export default function Notafiscal({ data }) {
                                 invalidMaxFileSizeMessage='Arquivo maior que 16MB'
                                 maxFileSize={16000000}
                                 onUploaded={(data) => {setPdfUploaded(data?.file)}}
-                                //onUploaded={(data) => {console.log(data.file)}}
                                 
                               />
                               <span>Tamanho máximo do arquivo: 16 MB.</span>
