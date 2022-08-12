@@ -11,7 +11,7 @@ export default async function handler (req,res){
         if(!session) {
             res.status(400).json({ error: 'ERROR 0000: Usuário não logado'})
         }
-        const {email, tipo_documento, dat_documento, pdfFile} = req.body;
+        const {tipo_documento, dat_documento, pdfFile} = req.body;
 
         if (!tipo_documento || !dat_documento || !pdfFile) {
             res.status(400).json({ error: 'ERROR 0001: Está faltando parâmetros no corpo da requisição'})

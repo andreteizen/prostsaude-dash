@@ -78,7 +78,7 @@ export default function Notafiscal({ data }) {
                       dataSource={data}
                       onRowInserting={
                         (data) => {
-                          insertData(data, pdfUploaded, session?.user?.email)
+                          insertData(data, pdfUploaded)
                         }
                       }
                     >
@@ -99,7 +99,9 @@ export default function Notafiscal({ data }) {
                                 selectButtonText="Selecionar documento"
                                 invalidMaxFileSizeMessage='Arquivo maior que 16MB'
                                 maxFileSize={16000000}
-                                onUploaded={(data) => {setPdfUploaded(data)}}
+                                onUploaded={(data) => {setPdfUploaded(data.file)}}
+                                //onUploaded={(data) => {console.log(data.file)}}
+                                
                               />
                               <span>Tamanho máximo do arquivo: 16 MB.</span>
                             </Item>
