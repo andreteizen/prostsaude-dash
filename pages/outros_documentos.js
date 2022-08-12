@@ -176,7 +176,7 @@ export async function getServerSideProps({ req, res }) {
         if(session?.user?.email !== 'contato@prostsaude.com'){
           var data = await db
             .collection('documentos')
-            .find({ email: session?.user?.email, tipo_documento: 'Nota Fiscal' }, { 'pdfFile': 0 })
+            .find({ email: session?.user?.email }, { 'pdfFile': 0 })
             .toArray();
     
           data = JSON.stringify(data);
@@ -186,7 +186,7 @@ export async function getServerSideProps({ req, res }) {
         else {
           var data = await db
             .collection('documentos')
-            .find({ tipo_documento: 'Nota Fiscal' }, { 'pdfFile': 0 })
+            .find({ }, { 'pdfFile': 0 })
             .toArray();
     
           data = JSON.stringify(data);
