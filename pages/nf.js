@@ -52,7 +52,7 @@ export default function Notafiscal({ data }) {
         email: email_saving,
         dat_documento: data.data.dat_documento,
         tipo_documento: data.data.tipo_documento,
-        pdfFile: pdfFile?.file
+        file: pdfFile?.file
     }
     axios.post('/api/insert/document', dados)
         .then(setTimeout(() => { 
@@ -171,27 +171,25 @@ export async function getServerSideProps({ req, res }) {
   if(session) {
     const { db } = await connect();
 
-    if (req.method == 'GET'){
-        if(session?.user?.email !== 'contato@prostsaude.com'){
-          var data = await db
-            .collection('documentos')
-            .find({ email: session?.user?.email, tipo_documento: 'Nota Fiscal' }, { 'pdfFile': 0 })
-            .toArray();
-    
-          data = JSON.stringify(data);
-          data = JSON.parse(data);
-          return {props: { data }}
-        }
-        else {
-          var data = await db
-            .collection('documentos')
-            .find({ tipo_documento: 'Nota Fiscal' }, { 'pdfFile': 0 })
-            .toArray();
-    
-          data = JSON.stringify(data);
-          data = JSON.parse(data);
-          return {props: { data }}
-        }
+      if(session?.user?.email !== 'contato@prostsaude.com'){
+        var data = await db
+          .collection('documentos')
+          .find({ email: session?.user?.email, tipo_documento: 'Nota Fiscal' }, { 'pdfFile': 0 })
+          .toArray();
+  
+        data = JSON.stringify(data);
+        data = JSON.parse(data);
+        return {props: { data }}
+      }
+      else {
+        var data = await db
+          .collection('documentos')
+          .find({ tipo_documento: 'Nota Fiscal' }, { 'pdfFile': 0 })
+          .toArray();
+  
+        data = JSON.stringify(data);
+        data = JSON.parse(data);
+        return {props: { data }}
       }
   }
 

@@ -8,6 +8,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@aws-sdk/abort-controller": "^3.127.0",
+    "@aws-sdk/client-s3": "^3.145.0",
     "@chakra-ui/react": "^2.2.4",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
@@ -24,6 +26,7 @@
     "crypto": "^1.0.1",
     "devextreme": "22.1",
     "devextreme-react": "22.1",
+    "dotenv": "^16.0.1",
     "framer-motion": "^6.5.1",
     "isomorphic-unfetch": "^3.1.0",
     "material-table": "^2.0.3",
