@@ -8,10 +8,10 @@ const handler = nc()
     .use(upload.single('file'))
     .post(async (req, res) => {
         const session = await getSession({ req });
-/*
+
         if(!session) {
             res.status(400).json({ error: 'ERROR 0000: Usuário não logado'})
-        }*/
+        }
 
         const {tipo_documento, dat_documento, email} = req.body;
 
