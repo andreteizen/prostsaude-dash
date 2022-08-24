@@ -158,7 +158,11 @@ export default function Notafiscal({ data }) {
                               <FileUploader 
                                   selectButtonText="Selecionar documento"
                                   allowCanceling={true}
-                                  uploadHeaders={headers}
+                                  uploadHeaders={
+                                    {
+                                      "Access-Control-Allow-Origin": "*"
+                                    }
+                                  }
                                   onUploaded={
                                     (data) => {
                                       setPdfUploaded(data?.file);
