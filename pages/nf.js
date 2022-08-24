@@ -32,8 +32,9 @@ export default function Notafiscal({ data }) {
   const router = useRouter();
 
   const headers = {
-    'Access-Control-Allow-Origin': '*',
-    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+    "Allow": "POST"
   }
 
   const [dadosNotaFiscal, setDadosNotaFiscal] = useState(data.filter(tipoDoc => tipoDoc.tipo_documento === 'Nota Fiscal'));
