@@ -157,7 +157,7 @@ export default function Notafiscal({ data }) {
                             <Item dataField="arquivo_pdf">
                               <FileUploader 
                                   selectButtonText="Selecionar documento"
-                                  allowCanceling={true}
+                                  activeStateEnabled={true}
                                   uploadHeaders={
                                     {
                                       "Access-Control-Allow-Origin": "*"
