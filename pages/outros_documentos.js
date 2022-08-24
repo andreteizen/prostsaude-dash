@@ -31,15 +31,24 @@ export default function Notafiscal({ data }) {
   const { data: session } = useSession();
   const router = useRouter();
 
+  const headers = {
+    "Access-Control-Allow-Origin": "https://prostsaude-dash.vercel.app/",
+  }
+
+  const [dadosNotaFiscal, setDadosNotaFiscal] = useState(data ? data.filter(tipoDoc => tipoDoc.tipo_documento === 'Nota Fiscal') : null);
+  const [dadosDarf, setDadosDarf] = useState(data ? data.filter(tipoDoc => tipoDoc.tipo_documento === 'DARF') : null);
+
+  useEffect(() => {
+    setDadosNotaFiscal(data ? data.filter(tipoDoc => tipoDoc.tipo_documento === 'Nota Fiscal') : null)
+  }, [data])
+
+  useEffect(() => {
+    setDadosDarf(data ? data.filter(tipoDoc => tipoDoc.tipo_documento === 'DARF') : null)
+  }, [data])
+
   const [pdfUploaded, setPdfUploaded] = useState(null);
 
   const [isAdmin, setIsAdmin] = useState((session?.user?.email === "contato@prostsaude.com"));
-
-  const headers = {
-    "Access-Control-Allow-Origin": "https://prostsaude-dash.vercel.app/",
-    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  }
-
 
   const onDownloadButtonClick = async function downloadPdf(data) {
     fetch(data.row.data.thumb)
@@ -52,9 +61,10 @@ export default function Notafiscal({ data }) {
 					a.download = `${data.row.data.dat_documento}_${data.row.data.tipo_documento}.${tipoDocumento[tipoDocumento.length - 1]}`;
 					a.click();
 				});
-				//window.location.href = response.url;
 		});
   };
+
+
   const orderDateFormat = "dd/MM/yyyy";
 
   // Função para deletar
@@ -114,8 +124,9 @@ export default function Notafiscal({ data }) {
                     </Row>
                 <Row className="main-page p-0 m-0 align-items-center justify-centent-center">
                 <div className="p-4 h-100">
-                    <p className="h3">Todos os documentos</p>
+                  <p className="h3">Todos os documentos</p>
                     <DataGrid
+                      className='mb-5'
                       height='50vh'
                       keyExpr="_id"
                       rowAlternationEnabled={true}
@@ -145,15 +156,14 @@ export default function Notafiscal({ data }) {
                             <Item dataField="dat_documento" />
                             <Item dataField="arquivo_pdf">
                               <FileUploader 
-                                    selectButtonText="Selecionar documento"
-                                    invalidMaxFileSizeMessage='Arquivo maior que 16MB'
-                                    maxFileSize={16000000}
-                                    uploadHeaders={headers}
-                                    onUploaded={
-                                      (data) => {
-                                        setPdfUploaded(data?.file);
-                                      }
+                                  selectButtonText="Selecionar documento"
+                                  allowCanceling={true}
+                                  uploadHeaders={headers}
+                                  onUploaded={
+                                    (data) => {
+                                      setPdfUploaded(data?.file);
                                     }
+                                  }
                               />
                             </Item>
                           </Item>
@@ -194,7 +204,9 @@ export default function Notafiscal({ data }) {
 
 export async function getServerSideProps({ req, res }) {
   const session = await getSession({ req });
-
+  res.setHeader(
+    "Access-Control-Allow-Origin", "*"
+  )
   if(session) {
     const { db } = await connect();
 
