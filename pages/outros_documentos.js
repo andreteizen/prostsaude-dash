@@ -9,6 +9,7 @@ import DataGrid, {
   Popup,
   Form,
   Item,
+  Toolbar,
   Button
 } from 'devextreme-react/data-grid';
 import Login from '../components/login.js'
@@ -21,20 +22,44 @@ import connect from '../utils/database.js';
 import { tiposDocumento } from '../utils/data.js';
 import { Lookup } from 'devextreme-react/filter-builder.js';
 import FileUploader from 'devextreme-react/file-uploader';
-import downloadData from '../utils/downloadData.js';
 import axios from "axios";
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 
 
-export default function OutrosDocumentos({ data }) {
+export default function Notafiscal({ data }) {
   const { data: session } = useSession();
   const router = useRouter();
 
+  const [dadosNotaFiscal, setDadosNotaFiscal] = useState(data.filter(tipoDoc => tipoDoc.tipo_documento === 'Nota Fiscal'));
+  const [dadosDarf, setDadosDarf] = useState(data.filter(tipoDoc => tipoDoc.tipo_documento === 'DARF'));
+
+  useEffect(() => {
+    setDadosNotaFiscal(data.filter(tipoDoc => tipoDoc.tipo_documento === 'Nota Fiscal'))
+  }, [data])
+
+  useEffect(() => {
+    setDadosDarf(data.filter(tipoDoc => tipoDoc.tipo_documento === 'DARF'))
+  }, [data])
+
   const [pdfUploaded, setPdfUploaded] = useState(null);
+
   const [isAdmin, setIsAdmin] = useState((session?.user?.email === "contato@prostsaude.com"));
 
-  const onDownloadButtonClick = downloadData;
+  const onDownloadButtonClick = async function downloadPdf(data) {
+    fetch(data.row.data.thumb)
+			.then(response => {
+				response.blob().then(blob => {
+					let url = window.URL.createObjectURL(blob);
+					let a = document.createElement('a');
+          const tipoDocumento = data.row.data.thumb.split('.')
+					a.href = url;
+					a.download = `${data.row.data.dat_documento}_${data.row.data.tipo_documento}.${tipoDocumento[tipoDocumento.length - 1]}`;
+					a.click();
+				});
+				//window.location.href = response.url;
+		});
+  };
   const orderDateFormat = "dd/MM/yyyy";
 
   // Função para deletar
@@ -45,19 +70,22 @@ export default function OutrosDocumentos({ data }) {
         }, 300));
   }
 
-  const insertData = async function insertData(data, pdfFile, email) {
-    const email_saving = (typeof data.data.email === 'undefined') ? email : data.data.email
+  const insertData = async (data) => {
+    const email_saving = (typeof data?.data?.email === 'undefined') ? session?.user?.email : data.data.email
 
-    const dados = {
-        email: email_saving,
-        dat_documento: data.data.dat_documento,
-        tipo_documento: data.data.tipo_documento,
-        pdfFile: pdfFile?.file
-    }
-    axios.post('/api/insert/document', dados)
+    await axios.post('/api/insert/document', {
+          email: email_saving,
+          dat_documento: data.data.dat_documento,
+          tipo_documento: data.data.tipo_documento,
+          file: pdfUploaded
+        }, {
+          headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
         .then(setTimeout(() => { 
           router.reload(window.location.pathname)
-        }, 300))
+        }, 1500))
         .catch((err) => {
             console.log(err)
         })
@@ -91,9 +119,9 @@ export default function OutrosDocumentos({ data }) {
                     </Row>
                 <Row className="main-page p-0 m-0 align-items-center justify-centent-center">
                 <div className="p-4 h-100">
-                  <p className="h3">Outros documentos</p>
+                    <p className="h3">Todos os documentos</p>
                     <DataGrid
-                      height='75vh'
+                      height='50vh'
                       keyExpr="_id"
                       rowAlternationEnabled={true}
                       allowColumnReordering={true}
@@ -102,7 +130,7 @@ export default function OutrosDocumentos({ data }) {
                       dataSource={data}
                       onRowInserting={
                         (data) => {
-                          insertData(data, pdfUploaded, session?.user?.email)
+                          insertData(data)
                         }
                       }
                     >
@@ -114,21 +142,23 @@ export default function OutrosDocumentos({ data }) {
                         useIcons={true}
                       >
                         <Popup title="Adicionar documento" showTitle={true} width={450} height="auto" />
-                        <Form>
+
+                        <Form> 
                           <Item itemType="group" colCount={1} colSpan={2}>
                             <Item dataField="email" visible={isAdmin} />
                             <Item dataField="tipo_documento" />
                             <Item dataField="dat_documento" />
                             <Item dataField="arquivo_pdf">
                               <FileUploader 
-                                selectButtonText="Selecionar documento"
-                                invalidMaxFileSizeMessage='Arquivo maior que 16MB'
-                                maxFileSize={16000000}
-                                onUploaded={(data) => {setPdfUploaded(data?.file)}}
-                                //onUploaded={(data) => {console.log(data.file)}}
-                                
+                                  selectButtonText="Selecionar documento"
+                                  invalidMaxFileSizeMessage='Arquivo maior que 16MB'
+                                  maxFileSize={16000000}
+                                  onUploaded={
+                                    (data) => {
+                                      setPdfUploaded(data?.file);
+                                    }
+                                  }
                               />
-                              <span>Tamanho máximo do arquivo: 16 MB.</span>
                             </Item>
                           </Item>
                         </Form>
@@ -172,27 +202,25 @@ export async function getServerSideProps({ req, res }) {
   if(session) {
     const { db } = await connect();
 
-    if (req.method == 'GET'){
-        if(session?.user?.email !== 'contato@prostsaude.com'){
-          var data = await db
-            .collection('documentos')
-            .find({ email: session?.user?.email }, { 'pdfFile': 0 })
-            .toArray();
-    
-          data = JSON.stringify(data);
-          data = JSON.parse(data);
-          return {props: { data }}
-        }
-        else {
-          var data = await db
-            .collection('documentos')
-            .find({ }, { 'pdfFile': 0 })
-            .toArray();
-    
-          data = JSON.stringify(data);
-          data = JSON.parse(data);
-          return {props: { data }}
-        }
+      if(session?.user?.email !== 'contato@prostsaude.com'){
+        var data = await db
+          .collection(process.env.MONGODB_COLLECTION)
+          .find({ email: session?.user?.email })
+          .toArray();
+  
+        data = JSON.stringify(data);
+        data = JSON.parse(data);
+        return {props: { data }}
+      }
+      else {
+        var data = await db
+          .collection(process.env.MONGODB_COLLECTION)
+          .find({ })
+          .toArray();
+  
+        data = JSON.stringify(data);
+        data = JSON.parse(data);
+        return {props: { data }}
       }
   }
 
