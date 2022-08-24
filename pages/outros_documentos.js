@@ -36,8 +36,7 @@ export default function Notafiscal({ data }) {
   const [isAdmin, setIsAdmin] = useState((session?.user?.email === "contato@prostsaude.com"));
 
   const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'X-Requested-With'
+    'Access-Control-Allow-Origin': '*'
   }
 
 
