@@ -78,7 +78,7 @@ export default function Notafiscal({ data }) {
         }
       })
         .then(setTimeout(() => { 
-          router.reload(window.location.pathname)
+          //router.reload(window.location.pathname)
         }, 1500))
         .catch((err) => {
             console.log(err)
