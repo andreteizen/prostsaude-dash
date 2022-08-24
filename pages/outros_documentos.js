@@ -31,20 +31,15 @@ export default function Notafiscal({ data }) {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const [dadosNotaFiscal, setDadosNotaFiscal] = useState(data.filter(tipoDoc => tipoDoc.tipo_documento === 'Nota Fiscal'));
-  const [dadosDarf, setDadosDarf] = useState(data.filter(tipoDoc => tipoDoc.tipo_documento === 'DARF'));
-
-  useEffect(() => {
-    setDadosNotaFiscal(data.filter(tipoDoc => tipoDoc.tipo_documento === 'Nota Fiscal'))
-  }, [data])
-
-  useEffect(() => {
-    setDadosDarf(data.filter(tipoDoc => tipoDoc.tipo_documento === 'DARF'))
-  }, [data])
-
   const [pdfUploaded, setPdfUploaded] = useState(null);
 
   const [isAdmin, setIsAdmin] = useState((session?.user?.email === "contato@prostsaude.com"));
+
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'X-Requested-With'
+  }
+
 
   const onDownloadButtonClick = async function downloadPdf(data) {
     fetch(data.row.data.thumb)
@@ -150,14 +145,15 @@ export default function Notafiscal({ data }) {
                             <Item dataField="dat_documento" />
                             <Item dataField="arquivo_pdf">
                               <FileUploader 
-                                  selectButtonText="Selecionar documento"
-                                  invalidMaxFileSizeMessage='Arquivo maior que 16MB'
-                                  maxFileSize={16000000}
-                                  onUploaded={
-                                    (data) => {
-                                      setPdfUploaded(data?.file);
+                                    selectButtonText="Selecionar documento"
+                                    invalidMaxFileSizeMessage='Arquivo maior que 16MB'
+                                    maxFileSize={16000000}
+                                    uploadHeaders={headers}
+                                    onUploaded={
+                                      (data) => {
+                                        setPdfUploaded(data?.file);
+                                      }
                                     }
-                                  }
                               />
                             </Item>
                           </Item>
