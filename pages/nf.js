@@ -32,9 +32,8 @@ export default function Notafiscal({ data }) {
   const router = useRouter();
 
   const headers = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-    "Allow": "POST"
+    "Access-Control-Allow-Origin": "https://prostsaude-dash.vercel.app/",
+    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
   }
 
   const [dadosNotaFiscal, setDadosNotaFiscal] = useState(data.filter(tipoDoc => tipoDoc.tipo_documento === 'Nota Fiscal'));
@@ -159,8 +158,7 @@ export default function Notafiscal({ data }) {
                             <Item dataField="arquivo_pdf">
                               <FileUploader 
                                   selectButtonText="Selecionar documento"
-                                  invalidMaxFileSizeMessage='Arquivo maior que 16MB'
-                                  maxFileSize={16000000}
+                                  allowCanceling={true}
                                   uploadHeaders={headers}
                                   onUploaded={
                                     (data) => {
