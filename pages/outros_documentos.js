@@ -31,10 +31,6 @@ export default function Notafiscal({ data }) {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const headers = {
-    "Access-Control-Allow-Origin": "https://prostsaude-dash.vercel.app/",
-  }
-
   const [pdfUploaded, setPdfUploaded] = useState(null);
 
   const [isAdmin, setIsAdmin] = useState((session?.user?.email === "contato@prostsaude.com"));
