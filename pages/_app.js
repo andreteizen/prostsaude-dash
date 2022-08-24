@@ -28,7 +28,7 @@ function MyApp({
             crossorigin></Script>
 
           <Script>var Alert = ReactBootstrap.Alert;</Script>
-            <title>Startup médica</title>
+            <title>PROST Saúde</title>
         </Head>
         <ChakraProvider>
         <SessionProvider session={session}>
