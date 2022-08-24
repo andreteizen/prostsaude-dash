@@ -2,18 +2,10 @@ import connect from "../../../utils/database";
 import { getSession } from 'next-auth/react';
 import nc from 'next-connect';
 import upload from "../../../utils/upload";
-import NextCors from 'nextjs-cors';
 
 const handler = nc()
     .use(upload.single('file'))
-    .post(async (req, res) => {
-        await NextCors(req, res, {
-            // Options
-            methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-            origin: '*',
-            optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-         });
-         
+    .post(async (req, res) => {         
         const session = await getSession({ req });
 
         if(!session) {
