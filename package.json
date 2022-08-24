@@ -29,6 +29,7 @@
     "dotenv": "^16.0.1",
     "framer-motion": "^6.5.1",
     "isomorphic-unfetch": "^3.1.0",
+    "js-file-download": "^0.4.12",
     "material-table": "^2.0.3",
     "mongodb": "^4.8.1",
     "mongoose": "^6.5.2",
@@ -43,6 +44,7 @@
     "react-dom": "^18.2.0",
     "react-geocode": "^0.2.2",
     "react-google-maps": "^9.4.5",
+    "react-hook-form": "^7.34.2",
     "react-minimal-side-navigation": "^1.5.1"
   }
 }

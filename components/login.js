@@ -39,7 +39,7 @@ export default function Login() {
                 >
                     
                     <Avatar bg="teal.500" />
-                    <Heading color="teal.400">Bem vindo</Heading>
+                    <Heading color="teal.400">Bem-vindo</Heading>
                     <Button
                         borderRadius={0}
                         type="submit"

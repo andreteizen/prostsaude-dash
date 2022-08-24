@@ -8,7 +8,7 @@ export default async function handler (req,res){
 
     if (req.method == 'DELETE'){
         const { db } = await connect();
-        await db.collection('documentos').deleteOne({ "_id" : ObjectID(_id) } );
+        await db.collection(process.env.MONGODB_COLLECTION).deleteOne({ "_id" : ObjectID(_id) } );
 
         res.status(200).json({message: "Ok - Deleted"})
     } else {

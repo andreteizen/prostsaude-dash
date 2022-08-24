@@ -5,10 +5,10 @@ import { S3Client } from '@aws-sdk/client-s3';
 import crypto from 'crypto';
 
 const s3 = new S3Client({
-    region: process.env.AWS_REGION,
+    region: process.env.AWSREGION,
     credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY,
-        secretAccessKey: process.env.AWS_SECRET_KEY,
+        accessKeyId: process.env.AWS_ACCESSKEY,
+        secretAccessKey: process.env.AWS_SECRETKEY,
     }
 });
 
@@ -25,8 +25,7 @@ const upload = multer({
         key(req, file, cb) {
             crypto.randomBytes(16, (err, hash) => {
                 if(err) cb(err);
-                const fileName = `${hash.toString('hex')}-${file.originalName}`
-    
+                const fileName = `${hash.toString('hex')}-${file.originalname}`
                 cb(null, fileName);
             })
         },
