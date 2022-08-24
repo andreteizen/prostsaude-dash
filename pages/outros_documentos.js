@@ -35,17 +35,6 @@ export default function Notafiscal({ data }) {
     "Access-Control-Allow-Origin": "https://prostsaude-dash.vercel.app/",
   }
 
-  const [dadosNotaFiscal, setDadosNotaFiscal] = useState(data ? data.filter(tipoDoc => tipoDoc.tipo_documento === 'Nota Fiscal') : null);
-  const [dadosDarf, setDadosDarf] = useState(data ? data.filter(tipoDoc => tipoDoc.tipo_documento === 'DARF') : null);
-
-  useEffect(() => {
-    setDadosNotaFiscal(data ? data.filter(tipoDoc => tipoDoc.tipo_documento === 'Nota Fiscal') : null)
-  }, [data])
-
-  useEffect(() => {
-    setDadosDarf(data ? data.filter(tipoDoc => tipoDoc.tipo_documento === 'DARF') : null)
-  }, [data])
-
   const [pdfUploaded, setPdfUploaded] = useState(null);
 
   const [isAdmin, setIsAdmin] = useState((session?.user?.email === "contato@prostsaude.com"));
@@ -155,19 +144,9 @@ export default function Notafiscal({ data }) {
                             <Item dataField="tipo_documento" />
                             <Item dataField="dat_documento" />
                             <Item dataField="arquivo_pdf">
-                              <FileUploader 
-                                  selectButtonText="Selecionar documento"
-                                  activeStateEnabled={true}
-                                  uploadHeaders={
-                                    {
-                                      "Access-Control-Allow-Origin": "*"
-                                    }
-                                  }
-                                  onUploaded={
-                                    (data) => {
-                                      setPdfUploaded(data?.file);
-                                    }
-                                  }
+                              <input 
+                                type="file"
+                                onChange={(e) => setPdfUploaded(e.target.files[0])}
                               />
                             </Item>
                           </Item>
