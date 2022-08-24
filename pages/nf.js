@@ -31,6 +31,11 @@ export default function Notafiscal({ data }) {
   const { data: session } = useSession();
   const router = useRouter();
 
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'X-Requested-With'
+  }
+
   const [dadosNotaFiscal, setDadosNotaFiscal] = useState(data.filter(tipoDoc => tipoDoc.tipo_documento === 'Nota Fiscal'));
   const [dadosDarf, setDadosDarf] = useState(data.filter(tipoDoc => tipoDoc.tipo_documento === 'DARF'));
 
@@ -57,9 +62,10 @@ export default function Notafiscal({ data }) {
 					a.download = `${data.row.data.dat_documento}_${data.row.data.tipo_documento}.${tipoDocumento[tipoDocumento.length - 1]}`;
 					a.click();
 				});
-				//window.location.href = response.url;
 		});
   };
+
+  
   const orderDateFormat = "dd/MM/yyyy";
 
   // Função para deletar
@@ -154,6 +160,7 @@ export default function Notafiscal({ data }) {
                                   selectButtonText="Selecionar documento"
                                   invalidMaxFileSizeMessage='Arquivo maior que 16MB'
                                   maxFileSize={16000000}
+                                  uploadHeaders={headers}
                                   onUploaded={
                                     (data) => {
                                       setPdfUploaded(data?.file);
