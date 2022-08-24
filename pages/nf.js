@@ -32,8 +32,7 @@ export default function Notafiscal({ data }) {
   const router = useRouter();
 
   const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'X-Requested-With'
+    'Access-Control-Allow-Origin': '*'
   }
 
   const [dadosNotaFiscal, setDadosNotaFiscal] = useState(data.filter(tipoDoc => tipoDoc.tipo_documento === 'Nota Fiscal'));
@@ -65,7 +64,7 @@ export default function Notafiscal({ data }) {
 		});
   };
 
-  
+
   const orderDateFormat = "dd/MM/yyyy";
 
   // Função para deletar
