@@ -155,15 +155,9 @@ export default function Notafiscal({ data }) {
                             <Item dataField="tipo_documento" />
                             <Item dataField="dat_documento" />
                             <Item dataField="arquivo_pdf">
-                              <FileUploader 
-                                  selectButtonText="Selecionar documento"
-                                  allowCanceling={true}
-                                  uploadHeaders={headers}
-                                  onUploaded={
-                                    (data) => {
-                                      setPdfUploaded(data?.file);
-                                    }
-                                  }
+                              <input 
+                                type="file"
+                                onChange={(e) => setPdfUploaded(e.target.files[0])}
                               />
                             </Item>
                           </Item>
