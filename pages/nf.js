@@ -33,18 +33,17 @@ export default function Notafiscal({ data }) {
 
   const headers = {
     "Access-Control-Allow-Origin": "https://prostsaude-dash.vercel.app/",
-    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
   }
 
-  const [dadosNotaFiscal, setDadosNotaFiscal] = useState(data.filter(tipoDoc => tipoDoc.tipo_documento === 'Nota Fiscal'));
-  const [dadosDarf, setDadosDarf] = useState(data.filter(tipoDoc => tipoDoc.tipo_documento === 'DARF'));
+  const [dadosNotaFiscal, setDadosNotaFiscal] = useState(data ? data.filter(tipoDoc => tipoDoc.tipo_documento === 'Nota Fiscal') : null);
+  const [dadosDarf, setDadosDarf] = useState(data ? data.filter(tipoDoc => tipoDoc.tipo_documento === 'DARF') : null);
 
   useEffect(() => {
-    setDadosNotaFiscal(data.filter(tipoDoc => tipoDoc.tipo_documento === 'Nota Fiscal'))
+    setDadosNotaFiscal(data ? data.filter(tipoDoc => tipoDoc.tipo_documento === 'Nota Fiscal') : null)
   }, [data])
 
   useEffect(() => {
-    setDadosDarf(data.filter(tipoDoc => tipoDoc.tipo_documento === 'DARF'))
+    setDadosDarf(data ? data.filter(tipoDoc => tipoDoc.tipo_documento === 'DARF') : null)
   }, [data])
 
   const [pdfUploaded, setPdfUploaded] = useState(null);
@@ -289,7 +288,9 @@ export default function Notafiscal({ data }) {
 
 export async function getServerSideProps({ req, res }) {
   const session = await getSession({ req });
-
+  res.setHeader(
+    "Access-Control-Allow-Origin", "*"
+  )
   if(session) {
     const { db } = await connect();
 
