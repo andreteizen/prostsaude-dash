@@ -9,7 +9,6 @@ import DataGrid, {
   Popup,
   Form,
   Item,
-  Toolbar,
   Button
 } from 'devextreme-react/data-grid';
 import Login from '../components/login.js'
@@ -21,7 +20,6 @@ import Image from 'next/image'
 import connect from '../utils/database.js';
 import { tiposDocumento } from '../utils/data.js';
 import { Lookup } from 'devextreme-react/filter-builder.js';
-import FileUploader from 'devextreme-react/file-uploader';
 import axios from "axios";
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
@@ -102,7 +100,6 @@ export default function Notafiscal({ data }) {
 
   if(session){
       return (
-      
           <div className="Main">
             <Row className="h-100 w-100 p-0 m-0">
                 <Col md="auto" className="p-0 m-0">

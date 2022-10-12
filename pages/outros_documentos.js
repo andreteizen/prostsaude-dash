@@ -27,7 +27,7 @@ import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 
 
-export default function Notafiscal({ data }) {
+export default function Guiasimpostos({ data }) {
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -109,7 +109,7 @@ export default function Notafiscal({ data }) {
                     </Row>
                 <Row className="main-page p-0 m-0 align-items-center justify-centent-center">
                 <div className="p-4 h-100">
-                  <p className="h3">Todos os documentos</p>
+                  <p className="h3">Guias e Impostos</p>
                     <DataGrid
                       className='mb-5'
                       height='50vh'

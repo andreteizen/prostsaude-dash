@@ -3,5 +3,13 @@ export const tiposDocumento = [{
   }, {
     tipo: 'DARF'
   }, {
+    tipo: 'DAS'
+  }, {
+    tipo: 'ISS'
+  }, {
+    tipo: 'IRPJ'
+  }, {
+    tipo: 'CSLL'
+  }, {
     tipo: 'Outros'
   }]

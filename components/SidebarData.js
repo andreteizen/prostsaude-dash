@@ -12,7 +12,7 @@ export const SidebarData = [
         link: "/nf"
     },
     {
-        title: "Outros documentos",
+        title: "Guias e Impostos",
         icon: <BusinessIcon />,
         link: "/outros_documentos"
     }
