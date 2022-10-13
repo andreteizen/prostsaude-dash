@@ -24,7 +24,7 @@ a {
 .Sidebar {
   height: 100%;
   width: 220px;
-  background-color: #1d2731;
+  background-color: rgba(255,0,255,0.8);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -51,11 +51,11 @@ a {
 
 .SidebarList .NavRow:hover {
   cursor: pointer;
-  background-color: #666;
+  background-color: rgba(152,59,255,0.7);
 }
 
 .SidebarList #active {
-  background-color: #666;
+  background-color: rgba(152,59,255,0.7)
 }
 
 .NavRow #icon {

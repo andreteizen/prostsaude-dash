@@ -24,7 +24,7 @@ const handler = nc()
         await collection.insertOne({
             email,
             tipo_documento,
-            dat_documento,
+            dat_documento: new Date(dat_documento),
             thumb: req.file.location,
             dat_insercao: new Date(),
         });

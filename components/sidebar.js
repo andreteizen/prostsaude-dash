@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSession, signIn, signOut } from "next-auth/react";
+import logoPng from '../public/logo_prostsaude.png'
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 function Sidebar() {
     const router = useRouter();
@@ -14,7 +16,7 @@ function Sidebar() {
                 <li className="py-5">
                     <Link className="py-5" href="/nf">
                         <a style={{ fontSize: '2rem', color: 'white'}}>
-                            Logo
+                            <Image src={logoPng} alt="Logo" />
                         </a>
                     </Link>
                 </li>
@@ -39,7 +41,7 @@ function Sidebar() {
                     className="NavRow"
                     onClick={() => signOut()}>
                     {" "}
-                    <div id="icon">{}</div> <div id="title">Logout</div>
+                    <div id="icon"><ExitToAppIcon /></div> <div id="title">Logout</div>
                 </li>
             </ul>
         </div>
