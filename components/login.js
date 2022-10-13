@@ -38,13 +38,14 @@ export default function Login() {
                     boxShadow="md"
                 >
                     
-                    <Avatar bg="teal.500" />
-                    <Heading color="teal.400">Bem-vindo</Heading>
+                    <Avatar style={{ backgroundColor: 'rgba(255,0,255,0.8)'}} />
+                    <Heading color='rgba(255,0,255,0.8)'>Bem-vindo</Heading>
                     <Button
                         borderRadius={0}
                         type="submit"
                         variant="solid"
-                        colorScheme="teal"
+                        bgColor={'rgba(255,0,255,0.8)'}
+                        color="white"
                         width="50%"
                         onClick={() => signIn('auth0')}
                     >
