@@ -9,7 +9,6 @@ import DataGrid, {
   Popup,
   Form,
   Item,
-  Toolbar,
   Button
 } from 'devextreme-react/data-grid';
 import Login from '../components/login.js'
@@ -19,17 +18,26 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Image from 'next/image'
 import connect from '../utils/database.js';
-import { tiposDocumento } from '../utils/data.js';
+import { tiposDocumentoGuias } from '../utils/data.js';
 import { Lookup } from 'devextreme-react/filter-builder.js';
-import FileUploader from 'devextreme-react/file-uploader';
 import axios from "axios";
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 
 
-export default function Guiasimpostos({ data }) {
+export default function OutrosDocumentos({ data }) {
   const { data: session } = useSession();
   const router = useRouter();
+
+  const headers = {
+    "Access-Control-Allow-Origin": "https://prostsaude-dash.vercel.app/",
+  }
+
+  const [dadosOutrosDocumentos, setDadosOutrosDocumentos] = useState(data ? data.filter(tipoDoc => tipoDoc.tipo_documento !== 'Nota Fiscal') : null);
+
+  useEffect(() => {
+    setDadosOutrosDocumentos(data ? data.filter(tipoDoc => tipoDoc.tipo_documento !== 'Nota Fiscal') : null)
+  }, [data])
 
   const [pdfUploaded, setPdfUploaded] = useState(null);
 
@@ -73,12 +81,15 @@ export default function Guiasimpostos({ data }) {
           'Content-Type': 'multipart/form-data'
         }
       })
-        .then(setTimeout(() => { 
-          //router.reload(window.location.pathname)
-        }, 1500))
-        .catch((err) => {
-            console.log(err)
-        })
+      .then(async (data) => {
+        const {insertedId} = data?.data?.res_data
+
+        // Envia aviso
+        await axios.post(`/api/sendEmailID/${insertedId}`)
+      })
+      .catch((err) => {
+          console.log(err)
+      })
   }
 
   useEffect(() => {
@@ -87,7 +98,6 @@ export default function Guiasimpostos({ data }) {
 
   if(session){
       return (
-      
           <div className="Main">
             <Row className="h-100 w-100 p-0 m-0">
                 <Col md="auto" className="p-0 m-0">
@@ -118,7 +128,7 @@ export default function Guiasimpostos({ data }) {
                       allowColumnReordering={true}
                       allowColumnResizing={true}
                       showBorders={true}
-                      dataSource={data}
+                      dataSource={dadosOutrosDocumentos}
                       onRowInserting={
                         (data) => {
                           insertData(data)
@@ -154,10 +164,10 @@ export default function Guiasimpostos({ data }) {
                       <Scrolling mode="infinite" />
                       <Column dataField="email" caption="Email do responsável" dataType="string" visible={isAdmin}/>
                       <Column dataField="tipo_documento" caption="Tipo documento">
-                        <Lookup dataSource={tiposDocumento} valueExpr="tipo" displayExpr="tipo" />
+                        <Lookup dataSource={tiposDocumentoGuias} valueExpr="tipo" displayExpr="tipo" />
                       </Column>
+                      <Column dataField="dat_documento" caption="Data de Vencimento" dataType="date" defaultSortOrder="desc" format={orderDateFormat}/>
                       <Column dataField="dat_insercao" caption="Data de Inserção" dataType="date" format={orderDateFormat}/>
-                      <Column dataField="dat_documento" caption="Data do Documento" dataType="date" defaultSortOrder="desc" format={orderDateFormat}/>
                       <Column type='buttons'>
                         <Button icon='download'
                           onClick={onDownloadButtonClick}

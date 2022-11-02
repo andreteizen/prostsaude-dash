@@ -18,7 +18,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Image from 'next/image'
 import connect from '../utils/database.js';
-import { tiposDocumento } from '../utils/data.js';
+import { tiposDocumentoNf } from '../utils/data.js';
 import { Lookup } from 'devextreme-react/filter-builder.js';
 import axios from "axios";
 import { useRouter } from 'next/router';
@@ -34,14 +34,9 @@ export default function Notafiscal({ data }) {
   }
 
   const [dadosNotaFiscal, setDadosNotaFiscal] = useState(data ? data.filter(tipoDoc => tipoDoc.tipo_documento === 'Nota Fiscal') : null);
-  const [dadosDarf, setDadosDarf] = useState(data ? data.filter(tipoDoc => tipoDoc.tipo_documento === 'DARF') : null);
 
   useEffect(() => {
     setDadosNotaFiscal(data ? data.filter(tipoDoc => tipoDoc.tipo_documento === 'Nota Fiscal') : null)
-  }, [data])
-
-  useEffect(() => {
-    setDadosDarf(data ? data.filter(tipoDoc => tipoDoc.tipo_documento === 'DARF') : null)
   }, [data])
 
   const [pdfUploaded, setPdfUploaded] = useState(null);
@@ -86,13 +81,16 @@ export default function Notafiscal({ data }) {
           'Content-Type': 'multipart/form-data'
         }
       })
-        .then(setTimeout(() => { 
-          router.reload(window.location.pathname)
-        }, 1500))
-        .catch((err) => {
-            console.log(err)
-        })
-  }
+      .then(async (data) => {
+        const {insertedId} = data?.data?.res_data
+
+        // Envia aviso
+        await axios.post(`/api/sendEmailID/${insertedId}`)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
 
   useEffect(() => {
     setIsAdmin(session?.user?.email === "contato@prostsaude.com");
@@ -166,10 +164,10 @@ export default function Notafiscal({ data }) {
                       <Scrolling mode="infinite" />
                       <Column dataField="email" caption="Email do responsável" dataType="string" visible={isAdmin}/>
                       <Column dataField="tipo_documento" caption="Tipo documento">
-                        <Lookup dataSource={tiposDocumento} valueExpr="tipo" displayExpr="tipo" />
+                        <Lookup dataSource={tiposDocumentoNf} valueExpr="tipo" displayExpr="tipo" />
                       </Column>
-                      <Column dataField="dat_insercao" caption="Data de Inserção" dataType="date" format={orderDateFormat}/>
                       <Column dataField="dat_documento" caption="Data do Documento" dataType="date" defaultSortOrder="desc" format={orderDateFormat}/>
+                      <Column dataField="dat_insercao" caption="Data de Inserção" dataType="date" format={orderDateFormat}/>
                       <Column type='buttons'>
                         <Button icon='download'
                           onClick={onDownloadButtonClick}

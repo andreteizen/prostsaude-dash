@@ -1,6 +1,9 @@
-export const tiposDocumento = [{
+export const tiposDocumentoNf = [{
     tipo: 'Nota Fiscal'
-  }, {
+  }]
+
+  export const tiposDocumentoGuias = [
+    {
     tipo: 'DARF'
   }, {
     tipo: 'DAS'
