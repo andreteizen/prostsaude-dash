@@ -6,13 +6,11 @@ sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 
 async function sendEmail(req, res) {
     try {
-        /*
         const session = await getSession({ req });
         
         if(!session) {
             res.status(400).json({ error: 'ERROR 0000: Usuário não logado'})
         }
-        */
 
         const { id_documento } = req.query
         const { db } = await connect();
