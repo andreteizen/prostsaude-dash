@@ -14,6 +14,6 @@ export const SidebarData = [
     {
         title: "Guias e Impostos",
         icon: <BusinessIcon />,
-        link: "/outros_documentos"
+        link: "/guias-impostos"
     }
 ]
